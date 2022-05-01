@@ -1,0 +1,98 @@
+<!doctype html>
+
+<head>
+	<title>Выпуск карты</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<!--===============================================================================================-->
+</head>
+
+<body>
+
+	<div class="limiter">
+		<div class="container-table100">
+			<div class="wrap-table100">
+				<div class="table100">
+					<table>
+						<thead>
+							<tr class="table100-head">
+
+								<th class="column2">Номер заявки</th>
+								<th class="column1">Дата</th>
+								<th class="column3">Имя</th>
+								<th class="column3">Фамилия</th>
+								<th class="column5">Телефон</th>
+								<th class="column6">Тип карты</th>
+								<th class="column3">Путь к документам</th>
+								<th class="column2">Статус</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+
+								<td class="column2">{{.id}}</td>
+								<td class="column1">{{.date}}</td>
+								<td class="column3">{{.firstName}}</td>
+								<td class="column3">{{.lastName}}</td>
+								<td class="column5">{{.tel}}</td>
+								<td class="column6">{{.id_typeCard}}</td>
+								<td class="column3">{{range $puthUploadDocs:=.puthUploadDoc}}<a
+										href="{{$puthUploadDocs}}">Файл</a><br>{{end}}</td>
+								<td class="column2">{{.status}}</td>
+							</tr>
+
+
+						</tbody>
+					</table>
+
+				</div>
+				<p>
+					<h2 align="center" color="black" style="width: 1350px;margin-top: 20px;margin-bottom: 20px;">
+
+						<label style="color: white;">Выпуск карты</label>
+
+					</h2>
+				</p>
+				<form action="/delevery" method="POST" enctype="multipart/form-data" align="center">
+
+					<p align="center">
+						<textarea name="description" cols="40" rows="3" maxlength="120" placeholder="Описание..."
+							required="" style="width: 155px;margin-bottom: 20px;"></textarea>
+					</p>
+					<p align="center">
+						<div class="buttons" style="width: 155px;margin-left: 596px;height: 30px;">
+							<button type="submit" id="submit" name="submit">Отправить</button>
+							<button onclick="logOut()" type="button" id="submit" name="btn1">Выход</button>
+						</div>
+
+					</p>
+					<br><br>
+					{{.proverka}}
+				</form>
+			</div>
+		</div>
+
+	</div>
+	<script>
+		function logOut() {
+			var allcookies = document.cookie.split(";");
+			for (var i = 0; i < allcookies.length; i++) {
+
+				var cookie = allcookies[i];
+				var eqPos = cookie.indexOf("=");
+				var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+				document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+				
+			}
+			location.replace("/auth")
+		}
+		setInterval(location.reload(),200000)
+	</script>
+</body>
+
+</html>

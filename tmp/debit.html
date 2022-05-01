@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Оформление карты</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 18px;
+            margin-top: 40px;
+
+            background: linear-gradient(45deg, black, transparent);
+        }
+
+        button {
+            position: relative;
+            display: inline-block;
+            padding: 8px 12px;
+            margin: 8px 0;
+            font-weight: 700;
+
+            text-align: center;
+            vertical-align: top;
+            cursor: pointer;
+            background-color: #eee;
+            border: 1px solid #666;
+            border-radius: 6px;
+            text-decoration: none;
+            z-index: 2;
+        }
+
+        input {
+            position: relative;
+            display: inline-block;
+            padding: 8px 12px;
+            margin: 8px 0;
+            font-weight: 700;
+            width: 200px;
+            text-align: center;
+            vertical-align: top;
+            cursor: pointer;
+            background-color: #eee;
+            border: 2px solid #666;
+            border-radius: 6px;
+            text-decoration: none;
+            z-index: 2;
+        }
+    </style>
+</head>
+
+<body>
+
+    <table align="center" style=" background-color: #eee;
+    border: 8px solid #666;
+    border-radius: 9px;
+    text-decoration: none;
+    z-index: 2;background: radial-gradient(black, transparent);">
+        <tr style="background-color:deepskyblue;height: 65px;">
+            <th>Номер заявки</th>
+            <th>Дата</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Телефон</th>
+            <th>Путь к документам</th>
+
+            <th>Статус</th>
+            <th>Описание</th>
+        </tr>
+        <td width="80" align="center" style="color:azure;height: 45px;">{{.id}}</td>
+        <td align="center" width="120" style="color:azure">{{.date}}</td>
+        <td align="center" width="150" style="color:azure">{{.firstName}}</td>
+        <td align="center" width="150" style="color:azure">{{.lastName}}</td>
+        <td align="center" width="120" style="color:azure">{{.tel}}</td>
+        <td align="center" width="100" style="color:azure">
+            {{range $puthUploadDocs:=.puthUploadDoc}}
+            <a href={{$puthUploadDocs}}>Файл</a><br>
+            {{end}}
+        </td>
+        <td align="center" width="150" style="color:azure">{{.status}}</td>
+        <td align="center" width="150" style="color:azure">{{.description}}</td>
+    </table>
+    <h2 align=center><label>Создание клиента</label></h2>
+    <p>
+        <form action="/debit" method="POST" enctype="multipart/form-data" align="center">
+            <input type="text" name="firstname" id="firstname" maxlength=20 placeholder="Введите имя" required>
+            <br>
+            <input type="text" name="lastname" id="lastname" maxlength=20 placeholder="Введите фамилию" required>
+            <br>
+            <input type="date" name="birthday" id="birthday" placeholder="Введите дату рождения" required>
+            <br>
+            <input type="tel" name="tel" id="tel" pattern="[0-9]{9}" placeholder="Введите номер телефона" required>
+            <br>
+            <input type="text" name="itn" id="itn" pattern="[0-9]{12}" placeholder="Введите инн" required>
+            <br>
+            <input type="text" name="adress" id="adress" maxlength=90 placeholder="Введите адрес" required>
+            <br>
+            <input type="text" name="keyWord" id="keyWord" maxlength=45 placeholder="Введите ключевое слово" required>
+            <br>
+            <button style="background: #009C0C;border-color: #666;color: #fff;" id="btn1" type="submit"
+                name="submit">Отправить</button>
+            <br>
+            <button onclick="logOut()" type="button" id="submit" name="btn1">Выход</button>
+            <br><br>
+            {{.proverka}}
+        </form>
+        <script>
+            function logOut() {
+                var allcookies = document.cookie.split(";");
+                for (var i = 0; i < allcookies.length; i++) {
+
+                    var cookie = allcookies[i];
+                    var eqPos = cookie.indexOf("=");
+                    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+                    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+                 
+                }
+                location.replace("/auth")
+            }
+        </script>
+</body>
+
+</html>
